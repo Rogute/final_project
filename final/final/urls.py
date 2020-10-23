@@ -15,12 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from steam.views import LoginView, RegisterView
+from steam.views import LoginView, RegisterView, ListOfGamesView, GameAddView, LogoutView, GameView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', LoginView.as_view(), name="login"),
-    path('register/', RegisterView.as_view(), name="register")
-    # path('list/', )
-
+    path('logout/', LogoutView.as_view(), name="logout"),
+    path('register/', RegisterView.as_view(), name="register"),
+    path('main/', ListOfGamesView.as_view(), name="main"),
+    path('game_add/', GameAddView.as_view(), name="game_add"),
+    path('game/<int:game_id>/', GameView.as_view(), name="game")
 ]

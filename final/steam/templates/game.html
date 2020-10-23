@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Game details{% endblock %}
+
+{% block content%}
+<h2>Game:</h2>
+<p><strong>Name: </strong>{{ game.name }}</p>
+{#<p><strong>Nazwisko: </strong>{{ student.last_name }}</p>#}
+{#<p><strong>Klasa: </strong>{{ student.get_school_class_display }}</p>#}
+{#<p><strong>Rok urodzenia: </strong>{{ student.year_of_birth|default:"Nie podano" }}</p>#}
+
+{% endblock %}

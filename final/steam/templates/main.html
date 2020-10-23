@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Menu{% endblock %}
+
+{% block content%}
+<div>
+    {% if user.is_authenticated %}
+        Logged as: {{ user }} <a href="{% url 'logout' %}">Logout</a>
+    {% endif %}
+</div>
+<hr />
+<div>
+    <a href="{% url 'game_add' %}">Add new game</a>
+</div>
+<div>
+    <h3>List of games</h3>
+    <ol>
+        {% for game in games %}
+<!--            <li>{{ game }}</li>-->
+            <li><a href="/game/{{ game.id }}">{{ game }}</a></li>
+        {% endfor %}
+    </ol>
+</div>
+
+{% endblock %}
