@@ -3,6 +3,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from .models import ListOfGames
 from .forms import LoginForm, RegisterForm, GameAddForm
+from bs4 import BeautifulSoup
+import urllib.request
 
 
 class LoginView(View):
@@ -60,8 +62,38 @@ class ListOfGamesView(View):
         return render(request, "main.html", {"games": games})
 
 
+def get_id(link):
+    new_link = ''.join((ch if ch in '0123456789' else ' ') for ch in link)
+    list_of_numbers = [int(i) for i in new_link.split()]
+    link = 'https://steamcommunity.com/app/' + str(list_of_numbers[0])
+    return link
+
+
 class GameView(View):
     def get(self, request, game_id):
+        # get object link
         game = get_object_or_404(ListOfGames, id=game_id)
-        ctx = {"game": game}
+        url = game.link
+
+        # get developer and publisher for object
+        page = urllib.request.urlopen(url)
+        soup = BeautifulSoup(page, 'html.parser')
+        developers_list = []
+        developers = soup.find('div', attrs={'class': 'dev_row'})
+        publishers = developers.find_next('div', attrs={'class': 'dev_row'})
+        for developer in developers.find_all('a'):
+            developers_list.append(developer.text)
+        publisher_name = publishers.find('a').text
+
+        # get players for object
+        url = get_id(url)
+        page = urllib.request.urlopen(url)
+        soup = BeautifulSoup(page, 'html.parser')
+        players = soup.find('span', attrs={'class': 'apphub_NumInApp'})
+        players_online = players.text
+
+        ctx = {"game": game,
+               "developers": developers_list,
+               "publisher": publisher_name,
+               "players": players_online}
         return render(request, "game.html", ctx)
