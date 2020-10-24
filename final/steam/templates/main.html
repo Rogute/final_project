@@ -15,7 +15,6 @@
     <h3>List of games</h3>
     <ol>
         {% for game in games %}
-<!--            <li>{{ game }}</li>-->
             <li><a href="/game/{{ game.id }}">{{ game }}</a></li>
         {% endfor %}
     </ol>

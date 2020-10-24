@@ -15,9 +15,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from steam.views import LoginView, RegisterView, ListOfGamesView, GameAddView, LogoutView, GameView
+from steam.views import (
+    StartView,
+    LoginView,
+    RegisterView,
+    ListOfGamesView,
+    GameAddView,
+    LogoutView,
+    GameView,
+)
 
 urlpatterns = [
+    path('', StartView.as_view(), name='start'),
     path('admin/', admin.site.urls),
     path('login/', LoginView.as_view(), name="login"),
     path('logout/', LogoutView.as_view(), name="logout"),
@@ -25,4 +34,5 @@ urlpatterns = [
     path('main/', ListOfGamesView.as_view(), name="main"),
     path('game_add/', GameAddView.as_view(), name="game_add"),
     path('game/<int:game_id>/', GameView.as_view(), name="game")
+
 ]

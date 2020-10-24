@@ -1,10 +1,16 @@
 from django.contrib.auth import authenticate, login, logout, get_user_model
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from .models import ListOfGames
 from .forms import LoginForm, RegisterForm, GameAddForm
 from bs4 import BeautifulSoup
 import urllib.request
+
+
+class StartView(View):
+    def get(self, request):
+        return render(request, "start.html")
 
 
 class LoginView(View):
@@ -43,7 +49,15 @@ class RegisterView(View):
         return render(request, "register.html", {"form": form})
 
 
-class GameAddView(View):
+class ListOfGamesView(LoginRequiredMixin, View):
+    login_url = 'login'
+    def get(self, request):
+        games = ListOfGames.objects.all()
+        return render(request, "main.html", {"games": games})
+
+
+class GameAddView(LoginRequiredMixin, View):
+    login_url = 'login'
     def get(self, request):
         form = GameAddForm()
         return render(request, "game_add.html", {"form": form})
@@ -56,12 +70,6 @@ class GameAddView(View):
         return render(request, "game_add.html", {"form": form})
 
 
-class ListOfGamesView(View):
-    def get(self, request):
-        games = ListOfGames.objects.all()
-        return render(request, "main.html", {"games": games})
-
-
 def get_id(link):
     new_link = ''.join((ch if ch in '0123456789' else ' ') for ch in link)
     list_of_numbers = [int(i) for i in new_link.split()]
@@ -69,7 +77,8 @@ def get_id(link):
     return link
 
 
-class GameView(View):
+class GameView(LoginRequiredMixin, View):
+    login_url = 'login'
     def get(self, request, game_id):
         # get object link
         game = get_object_or_404(ListOfGames, id=game_id)
