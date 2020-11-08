@@ -2,6 +2,7 @@
 {% block title %}Adding new game{% endblock %}
 
 {% block content%}
+<h2><a href="{% url 'main' %}">BACK</a></h2>
 <form action="{% url 'game_add' %}" method="POST">
     {% csrf_token %}
     <table>
