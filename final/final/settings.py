@@ -25,7 +25,7 @@ SECRET_KEY = 'hfdo(f^jq5*$2m)=gp*5d_-dcpy&^lvs!+o=66@3+n#*60eck9'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -74,13 +74,22 @@ WSGI_APPLICATION = 'final.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'HOST': '127.0.0.1',
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'steam',
+#         'USER': 'postgres',
+#         'PASSWORD': 'coderslab',
+#     }
+# }
 DATABASES = {
     'default': {
-        'HOST': '127.0.0.1',
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'steam',
-        'USER': 'postgres',
-        'PASSWORD': 'coderslab',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'rogute$final',
+        'USER': 'rogute',
+        'PASSWORD': 'Pyszne17',
+        'HOST': 'rogute.mysql.pythonanywhere-services.com',
     }
 }
 
